@@ -79,12 +79,13 @@ class WorkController extends Controller
     {
         $data = $this->validation($request->all());
         $work = new Work;
+        
         $work->fill($data);
         $work->save();
 
         $work->tags()->attach($data['tags']);
 
-        return redirect()->route('admin.works.show', $work);
+        return redirect()->route('admin.works.show', $work);    
     }
 
     /**
@@ -107,7 +108,11 @@ class WorkController extends Controller
     public function edit(Work $work)
     {
         $categories = Category::all();
-        return view('admin.works.edit', compact('work', 'categories'));
+        $tags = Tag::all();
+
+        
+
+        return view('admin.works.edit', compact('work', 'categories', 'tags',));
     }
 
     /**
