@@ -14,7 +14,7 @@
   @endif
 
 
-  <form action="{{ route('admin.works.update', $work) }}" method="POST">
+  <form action="{{ route('admin.works.update', $work) }}" method="POST" enctype="multipart/form-data">
     @method('PUT') @csrf
     <label for="title" class="form-label">Titolo</label>
     <input
@@ -24,6 +24,9 @@
       name="title"
       value="{{ $work->title }}"
     />
+
+    <label for="cover_image" class="form-label">Cover Image</label>
+    <input type="file" class="form-control" id="cover_image" name="cover_image" />
 
 
     <label for="category_id" class="form-label">Categoria</label>

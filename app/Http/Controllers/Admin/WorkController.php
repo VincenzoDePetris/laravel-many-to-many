@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Work;
 use App\Models\Category;
@@ -18,6 +19,7 @@ class WorkController extends Controller
           $data,
           [
             'title' => 'required|string|max:20',
+            'cover_image' => 'nullable|image|max:512',
             'link' => "required|string",
             "description" => "required|string",
             "slug" => "nullable|string",
@@ -28,6 +30,9 @@ class WorkController extends Controller
             'title.required' => 'Il titolo è obbligatorio',
             'title.string' => 'Il titolo deve essere una stringa',
             'title.max' => 'Il titolo deve massimo di 20 caratteri',
+
+            'cover_image.image' => 'Il file caricato deve essere un immagine',
+            'cover_image.max' => 'Il file caricato deve avere una dimensione inferiore a 512Kb',
             
             'link.required' => 'Il link è obbligatorio',
             'link.string' => 'Il link deve essere una stringa',
@@ -80,8 +85,12 @@ class WorkController extends Controller
         $data = $this->validation($request->all());
         
         $work = new Work;
-        
         $work->fill($data);
+
+        if(Arr::exist($data, 'cover_image')) {
+            $cover_image_path = Storage::put('uploads/works/cover_image', $data['cover_image']);
+            $work->cover_image = $cover_image_path;
+        }
         
         $work->save();
 
@@ -127,6 +136,17 @@ class WorkController extends Controller
     {
         $data = $this->validation($request->all(), $work->id);
         $work->update($data);
+
+        if(Arr::exist($data, 'cover_image')){
+            if($work->cover_image) {
+                Storage::delete($work->cover_image);
+            }
+            
+            $cover_image_path = Storage::put('uploads/works/cover_image', $data['cover_image']);
+            $work->cover_image = $cover_image_path;
+        }   
+
+        $work->save();
         return redirect()->route('admin.works.show', $work);
     }
 
@@ -139,9 +159,14 @@ class WorkController extends Controller
     public function destroy(Work $work)
     {
         $work->tags()->detach();
+
+        if($works->cover_image){
+            Storage::delete($work->cover_image);
+        }
         $work->delete();
         return redirect()->route('admin.works.index');
     }
+
 
    
 }

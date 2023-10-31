@@ -16,5 +16,8 @@
       Nessun tag associato
     @endforelse</p>
   <div class="mt-5">Categoria: <b>{{ $work->category?->label }}</b></div>
+  <div>
+    <img src="{{ asset('/storage/' . $work->cover_image) }}" alt="">
+  </div>
 </div>
 @endsection

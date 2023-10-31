@@ -14,10 +14,16 @@
   @endif
 
 
-  <form action="{{ route('admin.works.store') }}" method="POST">
+  <form action="{{ route('admin.works.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
+
+    
+
     <label for="title" class="form-label">Titolo</label>
     <input type="text" class="form-control" id="title" name="title" />
+
+    <label for="cover_image" class="form-label">Cover Image</label>
+    <input type="file" class="form-control" id="cover_image" name="cover_image" />
 
     <label for="category_id" class="form-label">Categoria</label>
     <select name="category_id" id="category_id" class="form-select">
