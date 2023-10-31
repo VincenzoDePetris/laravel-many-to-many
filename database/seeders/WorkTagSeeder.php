@@ -20,7 +20,7 @@ class WorkTagSeeder extends Seeder
     public function run(Faker $faker)
     {
         $works = Work::all();                       
-        $works = Tag::all()->pluck('id')->toArray();
+        $tags = Tag::all()->pluck('id')->toArray();
       
         foreach($works as $work) {
           $work->

@@ -78,13 +78,14 @@ class WorkController extends Controller
     public function store(Request $request)
     {
         $data = $this->validation($request->all());
+        
         $work = new Work;
         
         $work->fill($data);
         
+        $work->save();
 
         $work->tags()->attach($data['tags']);
-        $work->save();
         return redirect()->route('admin.works.show', $work);    
     }
 
@@ -137,6 +138,7 @@ class WorkController extends Controller
      */
     public function destroy(Work $work)
     {
+        $work->tags()->detach();
         $work->delete();
         return redirect()->route('admin.works.index');
     }

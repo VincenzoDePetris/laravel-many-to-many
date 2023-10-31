@@ -14,6 +14,7 @@
         <th scope="col">Title</th>
         <th scope="col">Categoria</th>
         <th scope="col">Description</th>
+        <th scope="col">Tag</th>
         <th scope="col">Dettaglio</th>
         <th scope="col">Modifica</th>
         <th scope="col"></th>
@@ -26,6 +27,13 @@
         <td>{{ $work->title }} </td>
         <td>{!! $work->getCategoryBadge() !!}</td>
         <td>{{ $work->description }} </td>
+        <td>
+          @forelse($work->tags as $tag)
+            {{ $tag->label }} @unless($loop->last) , @else . @endunless
+          @empty
+            -
+          @endforelse
+          </td>
         <td><a href="{{ route('admin.works.show', $work ) }}">Detail</a> </td>
         <td><a href="{{ route('admin.works.edit', $work) }}">Modifica</a></td>
         <td><button
