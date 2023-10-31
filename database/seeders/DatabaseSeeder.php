@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
            CategorySeeder::class,
            WorkSeeder::class,
+           WorkTagSeeder::class,
            UserSeeder::class,
         ]);
     }

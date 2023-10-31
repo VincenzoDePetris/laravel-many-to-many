@@ -22,7 +22,7 @@ class WorkController extends Controller
             "description" => "required|string",
             "slug" => "nullable|string",
             "category_id" => "nullable|integer",
-            "tags" => "required",
+            "tags" => "nullable",
           ],
           [
             'title.required' => 'Il titolo è obbligatorio',
@@ -81,10 +81,10 @@ class WorkController extends Controller
         $work = new Work;
         
         $work->fill($data);
-        $work->save();
+        
 
         $work->tags()->attach($data['tags']);
-
+        $work->save();
         return redirect()->route('admin.works.show', $work);    
     }
 

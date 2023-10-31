@@ -22,7 +22,8 @@ class WorkSeeder extends Seeder
     {
         $category_ids = Category::all()->pluck('id');
         $category_ids[] = null;
-
+        
+        
 
         for($i=0; $i < 10; $i++) {
             $work = new Work();
@@ -32,6 +33,8 @@ class WorkSeeder extends Seeder
             $work->link = $faker->url();
             $work->slug = Str::slug($work->title);
             $work->save();
+
+           
         }
     }
 }
